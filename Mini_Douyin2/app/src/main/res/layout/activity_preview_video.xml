@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PreviewVideo">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:gravity="center">
+        <VideoView
+            android:id="@+id/pre_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/up_Btn"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:scaleType="center"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_file_upload_black_24dp" />
+        <ImageView
+            android:id="@+id/del_Btn"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:scaleType="center"
+            android:src="@drawable/ic_close_black_24dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="选择封面图片"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:id="@+id/update_text"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="重新拍摄视频"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:id="@+id/return_text"/>
+    </LinearLayout>
+
+</LinearLayout>
