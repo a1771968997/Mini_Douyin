@@ -36,6 +36,7 @@ public class VideoList extends Fragment {
     private ImageView imageView;
     private TextView id;
     private TextView name;
+    private AdapterRecycleView adapterRecycleView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,53 +47,68 @@ public class VideoList extends Fragment {
         return view;
     }
 
-    private void  initRecyclerView(){
+//    private void  initRecyclerView(){
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        recyclerView.setAdapter(new RecyclerView.Adapter() {
+//            @NonNull
+//            @Override
+//            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+//                View v=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item,viewGroup,false);
+//                return new MyViewHolder(v);
+//            }
+//
+//            @NonNull
+//
+//            @Override
+//            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+//                Random random = new Random();
+//                final int ranndnum = random.nextInt(mFeeds.size()-1);
+//                String url = mFeeds.get(ranndnum).getImage_url();
+//                Glide.with(viewHolder.itemView.getContext()).load(url).into(imageView);
+//                //id.setText(mFeeds.get(ranndnum).getCreateAt());
+//                //System.out.println(ranndnum);
+//                //System.out.println(mFeeds.get(i).getCreateAt());
+//                name.setText(mFeeds.get(ranndnum).getUser_name());
+//                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = new Intent(getActivity(),VideoPlayer.class);
+//                        intent.putExtra("url",mFeeds.get(ranndnum).getVideo_url());
+//                        startActivity(intent);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public int getItemCount() {
+//                return mFeeds.size();
+//            }
+//        });
+//    }
+//
+//    public class  MyViewHolder extends RecyclerView.ViewHolder{
+//        public MyViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            imageView = itemView.findViewById(R.id.image_cover);
+//            //id = itemView.findViewById(R.id.id);
+//            name = itemView.findViewById(R.id.name);
+//        }
+//    }
+
+    private void  initRecyclerView()
+    {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(new RecyclerView.Adapter() {
-            @NonNull
+        adapterRecycleView = new AdapterRecycleView(new AdapterRecycleView.OnItemClickListener() {
             @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View v=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item,viewGroup,false);
-                return new MyViewHolder(v);
-            }
-
-            @NonNull
-
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-                Random random = new Random();
-                final int ranndnum = random.nextInt(mFeeds.size()-1);
-                String url = mFeeds.get(ranndnum).getImage_url();
-                Glide.with(viewHolder.itemView.getContext()).load(url).into(imageView);
-                //id.setText(mFeeds.get(ranndnum).getCreateAt());
-                //System.out.println(ranndnum);
-                //System.out.println(mFeeds.get(i).getCreateAt());
-                name.setText(mFeeds.get(ranndnum).getUser_name());
-                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(),VideoPlayer.class);
-                        intent.putExtra("url",mFeeds.get(ranndnum).getVideo_url());
-                        startActivity(intent);
-                    }
-                });
-            }
-
-            @Override
-            public int getItemCount() {
-                return mFeeds.size();
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(),VideoPlayer.class);
+                intent.putExtra("url",mFeeds.get(position).getVideo_url());
+                startActivity(intent);
             }
         });
+        recyclerView.setAdapter(adapterRecycleView);
     }
 
-    public class  MyViewHolder extends RecyclerView.ViewHolder{
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.image_cover);
-            //id = itemView.findViewById(R.id.id);
-            name = itemView.findViewById(R.id.name);
-        }
-    }
 
     public void  fetchFeed(View view)
     {
@@ -106,6 +122,7 @@ public class VideoList extends Fragment {
                     mFeeds = response.body().getFeeds();
                     recyclerView.getAdapter().notifyDataSetChanged();
                 }
+                adapterRecycleView.refresh(mFeeds);
             }
             @Override
             public void onFailure(Call<FeedResponse> call, Throwable t) {
